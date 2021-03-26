@@ -159,8 +159,9 @@ Class sladcovich_alphaautob24 extends \CModule
         CopyDirFiles(__DIR__ . '/dist/', $_SERVER['DOCUMENT_ROOT'] . '/local/dist/sladcovich/', true, true);
         CopyDirFiles(__DIR__ . '/components/sladcovich/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/', true, true);
 
-        // add modified bitrix components and don't rewrite anything !
-        CopyDirFiles(__DIR__ . '/components/bitrix/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/', false, true);
+        // todo: WARNING !!! this is rewrite default bitrix components in /local/components/bitrix/ - better find another decision in future
+        // create additional tab in deal card
+        CopyDirFiles(__DIR__ . '/components/bitrix/crm.deal.details/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/crm.deal.details/', true, true);
 
         return true;
     }
@@ -174,6 +175,10 @@ Class sladcovich_alphaautob24 extends \CModule
     {
         Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/dist/sladcovich/');
         Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/');
+
+        // todo: WARNING !!! this is delete default bitrix components in /local/components/bitrix/ - better find another decision in future
+        // create additional tab in deal card
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/crm.deal.details/');
 
         return true;
     }
