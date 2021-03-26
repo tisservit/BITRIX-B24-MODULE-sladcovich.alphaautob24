@@ -1,17 +1,17 @@
 $(document).ready(function () {
 
     // Общие переменные
-    let dealId = $('#sladcovich-alphaautob24-dealb24id').val();
+    let dealId = $('#sladcovich-alphaautob24-work-dealb24id').val();
     let popupWorkId = 0;
     let users = [];
 
     // Общие функции
     function rewriteNumeration() {
-        $('.numeration-table-js').each(function (index) {
+        $('.work-numeration-table-js').each(function (index) {
             $(this).text(index + 1);
         });
 
-        $('.numeration-popup-js').each(function (index) {
+        $('.work-numeration-popup-js').each(function (index) {
             $(this).text(index + 1);
         });
     }
@@ -86,12 +86,11 @@ $(document).ready(function () {
             $('#sladcovich-alphaautob24-work_form')[0].reset();
 
             let sum = price * count;
-            let executors = 1;
 
             let tableItems = $('#sladcovich-alphaautob24-work_table-items');
 
             tableItems.append('<tr>' +
-                '<td class="numeration-table-js">' + '' + '</td>' +
+                '<td class="work-numeration-table-js">' + '' + '</td>' +
                 '<td>' + name + '</td>' +
                 '<td>' + price + ' ₽</td>' +
                 '<td>' + nh + '</td>' +
@@ -147,7 +146,7 @@ $(document).ready(function () {
             // success
             executors = JSON.parse(response.data);
             for (let index in executors) {
-                popupTbody = popupTbody + '<tr><td class="numeration-popup-js"></td>' +
+                popupTbody = popupTbody + '<tr><td class="work-numeration-popup-js"></td>' +
                     '<td>' + executors[index].EXECUTOR_FIO + '</td>' +
                     '<td class="percent-popup-js">' + executors[index].PARTICIPATION_PERCENT + '</td>' +
                     '<td><button data-id="' + executors[index].ID + '" data-role="work-popup-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button></td>' +
@@ -281,7 +280,7 @@ $(document).ready(function () {
         }).then(function (response) {
             // success
             popupTableItems.append('<tr>' +
-                '<td class="numeration-popup-js">' + '' + '</td>' +
+                '<td class="work-numeration-popup-js">' + '' + '</td>' +
                 '<td>' + executorFIO + '</td>' +
                 '<td class="percent-popup-js">' + percent + '</td>' +
                 '<td>' + '<button data-id="' + response.data + '" data-role="work-popup-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button>' + '</td>' +

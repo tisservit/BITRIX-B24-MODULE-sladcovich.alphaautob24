@@ -92,7 +92,7 @@ CJSCore::Init(['popup']);
 
                     <? foreach ($arResult['WORKS'] as $arWork): ?>
                     <tr>
-                        <td class="numeration-table-js"><?=$numeration?></td>
+                        <td class="work-numeration-table-js"><?=$numeration?></td>
                         <td><?=$arWork['NAME']?></td>
                         <td><?=$arWork['PRICE']?> ₽</td>
                         <td><?=$arWork['NH']?></td>

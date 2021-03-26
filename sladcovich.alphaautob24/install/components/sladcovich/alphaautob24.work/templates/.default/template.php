@@ -44,7 +44,7 @@ Loc::loadMessages(__FILE__);
 CJSCore::Init(['popup']);
 ?>
 
-<input id="sladcovich-alphaautob24-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
+<input id="sladcovich-alphaautob24-work-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
 
 <div class="slad-main-container container-fluid">
 
@@ -85,14 +85,14 @@ CJSCore::Init(['popup']);
                 </thead>
 
                 <?// Значения ?>
-                <tbody id="sladcovich-alphaautob24-work_table-items">
+                <tbody id="sladcovich-alphaautob24-costprice_table-items">
                 <? if(is_array($arResult['WORKS']) && count($arResult['WORKS']) > 0): ?>
 
                     <? $numeration = 1 ?>
 
                     <? foreach ($arResult['WORKS'] as $arWork): ?>
                     <tr>
-                        <td class="numeration-table-js"><?=$numeration?></td>
+                        <td class="work-numeration-table-js"><?=$numeration?></td>
                         <td><?=$arWork['NAME']?></td>
                         <td><?=$arWork['PRICE']?> ₽</td>
                         <td><?=$arWork['NH']?></td>
@@ -150,6 +150,7 @@ CJSCore::Init(['popup']);
                             type="number"
                             class="form-control"
                             step="0.01"
+                            min="0"
                             placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE_PLACEHOLDER');?>"
                             required
                     />
@@ -166,6 +167,7 @@ CJSCore::Init(['popup']);
                             type="number"
                             class="form-control"
                             step="0.01"
+                            min="0"
                             placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH_PLACEHOLDER');?>"
                             required
                     />
@@ -182,6 +184,7 @@ CJSCore::Init(['popup']);
                             type="number"
                             class="form-control"
                             step="0.01"
+                            min="0"
                             placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT_PLACEHOLDER');?>"
                             required
                     />

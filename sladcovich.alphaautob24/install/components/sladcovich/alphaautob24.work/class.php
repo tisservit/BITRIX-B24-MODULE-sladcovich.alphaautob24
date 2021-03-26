@@ -123,6 +123,9 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      *
      * @param $dealId
      * @return array
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
      */
     public function getAllWorksByDealIdAction($dealId)
     {
@@ -157,7 +160,8 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      * @param $workNH
      * @param $workCount
      * @param $workDealB24Id
-     * @return mixed
+     * @return array|int
+     * @throws Exception
      */
     public function addWorkAction($workName, $workPrice, $workNH, $workCount, $workDealB24Id)
     {
@@ -181,7 +185,10 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      * Удаляем исполнителей этой работы из БД
      *
      * @param $workId
-     * @return mixed
+     * @return \Bitrix\Main\ORM\Data\Result
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
      */
     public function deleteWorkAction($workId)
     {
@@ -208,7 +215,7 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      *
      * @param $workId
      * @param bool $json
-     * @return array
+     * @return array|mixed
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\ObjectPropertyException
      * @throws \Bitrix\Main\SystemException
@@ -247,7 +254,8 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      * @param $executorParticipationPercent
      * @param $executorUserB24Id
      * @param $executorWorkId
-     * @return mixed
+     * @return array|int
+     * @throws Exception
      */
     public function addExecutorAction($executorParticipationPercent, $executorUserB24Id, $executorWorkId)
     {
@@ -268,7 +276,10 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      * Удаляем исполнителя работы из БД
      *
      * @param $executorId
-     * @return mixed
+     * @return \Bitrix\Main\ORM\Data\Result
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
      */
     public function deleteExecutorAction($executorId)
     {

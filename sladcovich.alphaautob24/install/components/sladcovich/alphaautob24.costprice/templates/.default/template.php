@@ -44,7 +44,7 @@ Loc::loadMessages(__FILE__);
 //CJSCore::Init(['popup']);
 ?>
 
-<input id="sladcovich-alphaautob24-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
+<input id="sladcovich-alphaautob24-costprice-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
 
 <div class="slad-main-container container-fluid">
 
@@ -58,25 +58,19 @@ Loc::loadMessages(__FILE__);
                 <thead>
                 <tr>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NUMBER');?>
-                    </th>
-                    <th style="width: 333px;">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_NUMBER');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE');?> ₽
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE');?> ₽
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM');?>
                     </th>
-                    <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_SUM');?> ₽
-                    </th>
-                    <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_EXECUTORS');?>
+                    <th style="width: 400px;">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_NOTE');?>
                     </th>
                     <th>
                         <? // Удаление ?>
@@ -85,26 +79,20 @@ Loc::loadMessages(__FILE__);
                 </thead>
 
                 <?// Значения ?>
-                <tbody id="sladcovich-alphaautob24-work_table-items">
-                <? if(is_array($arResult['WORKS']) && count($arResult['WORKS']) > 0): ?>
+                <tbody id="sladcovich-alphaautob24-costprice_table-items">
+                <? if(is_array($arResult['COST_PRICES']) && count($arResult['COST_PRICES']) > 0): ?>
 
                     <? $numeration = 1 ?>
 
-                    <? foreach ($arResult['WORKS'] as $arWork): ?>
+                    <? foreach ($arResult['COST_PRICES'] as $arCostPrice): ?>
                     <tr>
-                        <td class="numeration-table-js"><?=$numeration?></td>
-                        <td><?=$arWork['NAME']?></td>
-                        <td><?=$arWork['PRICE']?> ₽</td>
-                        <td><?=$arWork['NH']?></td>
-                        <td><?=$arWork['COUNT']?></td>
-                        <td><?=$arWork['SUM']?> ₽</td>
+                        <td class="costprice-numeration-table-js"><?=$numeration?></td>
+                        <td><?=$arCostPrice['PP_NAME']?></td>
+                        <td><?=$arCostPrice['PP_DATE']?></td>
+                        <td><?=$arCostPrice['SUM']?> ₽</td>
+                        <td><?=$arCostPrice['NOTE']?></td>
                         <td>
-                            <button data-id="<?=$arWork['ID']?>" data-role="work-table-executors" type="button" class="btn btn-warning" style="padding: 0px 10px 0px 10px">
-                                <i class="fa fa-group" style="font-size:18px"></i><span>  </span>В работе: <span data-role="work-table-executors-count" data-id="<?=$arWork['ID']?>"><?=$arWork['EXECUTORS_COUNT']?></span>
-                            </button>
-                        </td>
-                        <td>
-                            <button data-id="<?=$arWork['ID']?>" data-role="work-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px">
+                            <button data-id="<?=$arCostPrice['ID']?>" data-role="costprice-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px">
                                 <i class="fa fa-remove" style="font-size:24px"></i>
                             </button>
                         </td>
@@ -122,74 +110,73 @@ Loc::loadMessages(__FILE__);
 
         <? // Форма добавления ?>
         <div class="col-md-4 p-4">
-            <form role="form" id="sladcovich-alphaautob24-work_form">
+            <form role="form" id="sladcovich-alphaautob24-costprice_form">
 
-                <? // Поле - наименование ?>
+                <? // Поле - номер п/п ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_name">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME');?>
+                    <label for="sladcovich-alphaautob24-costprice_pp_name">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_name"
-                            id="sladcovich-alphaautob24-work_name"
+                            name="sladcovich-alphaautob24-costprice_pp_name"
+                            id="sladcovich-alphaautob24-costprice_pp_name"
                             type="text"
                             class="form-control"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
-                <? // Поле - цена ?>
+                <? // Поле - дата п/п ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_price">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE');?>
+                    <label for="sladcovich-alphaautob24-costprice_pp_date">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_price"
-                            id="sladcovich-alphaautob24-work_price"
-                            type="number"
+                            name="sladcovich-alphaautob24-costprice_pp_date"
+                            id="sladcovich-alphaautob24-costprice_pp_date"
+                            type="date"
                             class="form-control"
-                            step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
-                <? // Поле - нормочас ?>
+                <? // Поле - сумма ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_nh">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH');?>
+                    <label for="sladcovich-alphaautob24-costprice_sum">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_nh"
-                            id="sladcovich-alphaautob24-work_nh"
+                            name="sladcovich-alphaautob24-costprice_sum"
+                            id="sladcovich-alphaautob24-costprice_sum"
                             type="number"
                             class="form-control"
                             step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH_PLACEHOLDER');?>"
+                            min="0"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
-                <? // Поле - количество ?>
+                <? // Поле - примечание ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_count">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT');?>
+                    <label for="sladcovich-alphaautob24-costprice_note">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_NOTE');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_count"
-                            id="sladcovich-alphaautob24-work_count"
-                            type="number"
+                            name="sladcovich-alphaautob24-costprice_note"
+                            id="sladcovich-alphaautob24-costprice_note"
+                            type="text"
                             class="form-control"
-                            step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_NOTE_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
                 <? // кнопка submit ?>
-                <button type="submit" class="ui-btn ui-btn-primary ui-btn-lg" style="width: 100%" id="sladcovich-alphaautob24-work_submit">
-                    <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_ADD');?>
+                <button type="submit" class="ui-btn ui-btn-primary ui-btn-lg" style="width: 100%" id="sladcovich-alphaautob24-costprice_submit">
+                    <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_ADD');?>
                 </button>
 
             </form>
