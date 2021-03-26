@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('#sladcovich-alphaautob24-costprice_form').on('submit', function (e) {
         e.preventDefault();
 
-        let ppName = $('#sladcovich-alphaautob24-costprice_pp_name').val();
+        let ppNumber = $('#sladcovich-alphaautob24-costprice_pp_number').val();
         let ppDate = $('#sladcovich-alphaautob24-costprice_pp_date').val();
         let sum = $('#sladcovich-alphaautob24-costprice_sum').val();
         let note = $('#sladcovich-alphaautob24-costprice_note').val();
@@ -27,7 +27,7 @@ $(document).ready(function () {
         BX.ajax.runComponentAction('sladcovich:alphaautob24.costprice', 'addCostPrice', {
             mode: 'class', // это означает, что мы хотим вызывать действие из class.php
             data: {
-                costPricePPName: ppName,
+                costPricePPNumber: ppNumber,
                 costPricePPDate: ppDate,
                 costPriceSum: sum,
                 costPriceNote: note,
@@ -42,8 +42,8 @@ $(document).ready(function () {
 
             tableItems.append('<tr>' +
                 '<td class="costprice-numeration-table-js">' + '' + '</td>' +
-                '<td>' + ppName + '</td>' +
-                '<td>' + ppDate + ' ₽</td>' +
+                '<td>' + ppNumber + '</td>' +
+                '<td>' + ppDate + '</td>' +
                 '<td>' + sum + ' ₽</td>' +
                 '<td>' + note + '</td>' +
                 '<td>' + '<button data-id="' + costPriceId + '" data-role="costprice-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button>' + '</td>' +

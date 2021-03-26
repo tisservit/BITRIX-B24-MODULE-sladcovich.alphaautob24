@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `b_sladcovich_alphaautob24_entity_orm_cost_price`
     `ID` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
 
     `PP_NUMBER` varchar(255) DEFAULT NULL COMMENT 'Номер п/п',
-    `PP_DATE` varchar(255) DEFAULT NULL COMMENT 'Дата п/п',
+    `PP_DATE` date DEFAULT NULL COMMENT 'Дата п/п',
     `SUM` decimal(12,2) DEFAULT NULL COMMENT 'Сумма',
     `NOTE` varchar(255) DEFAULT NULL COMMENT 'Примечание',
 

@@ -64,10 +64,10 @@ Loc::loadMessages(__FILE__);
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE');?> ₽
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM');?> ₽
                     </th>
                     <th style="width: 400px;">
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_NOTE');?>
@@ -87,7 +87,7 @@ Loc::loadMessages(__FILE__);
                     <? foreach ($arResult['COST_PRICES'] as $arCostPrice): ?>
                     <tr>
                         <td class="costprice-numeration-table-js"><?=$numeration?></td>
-                        <td><?=$arCostPrice['PP_NAME']?></td>
+                        <td><?=$arCostPrice['PP_NUMBER']?></td>
                         <td><?=$arCostPrice['PP_DATE']?></td>
                         <td><?=$arCostPrice['SUM']?> ₽</td>
                         <td><?=$arCostPrice['NOTE']?></td>
@@ -114,12 +114,12 @@ Loc::loadMessages(__FILE__);
 
                 <? // Поле - номер п/п ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-costprice_pp_name">
+                    <label for="sladcovich-alphaautob24-costprice_pp_number">
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-costprice_pp_name"
-                            id="sladcovich-alphaautob24-costprice_pp_name"
+                            name="sladcovich-alphaautob24-costprice_pp_number"
+                            id="sladcovich-alphaautob24-costprice_pp_number"
                             type="text"
                             class="form-control"
                             placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_NAME_PLACEHOLDER');?>"

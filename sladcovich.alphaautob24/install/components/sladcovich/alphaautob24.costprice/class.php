@@ -64,7 +64,7 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
         $allCostPrices = [];
 
         $res = CostPriceTable::getList([
-            'select' => ['ID', 'PP_NAME', 'PP_DATE', 'SUM', 'NOTE'],
+            'select' => ['ID', 'PP_NUMBER', 'PP_DATE', 'SUM', 'NOTE'],
             'filter' => ['DEAL_B24_ID' => $dealId],
             'order' => ['ID']
         ]);
@@ -72,7 +72,7 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
         {
             $allCostPrices[] = [
                 'ID' => $row['ID'],
-                'PP_NAME' => $row['PP_NAME'],
+                'PP_NUMBER' => $row['PP_NUMBER'],
                 'PP_DATE' => $row['PP_DATE'],
                 'SUM' => $row['SUM'],
                 'NOTE' => $row['NOTE'],
@@ -82,10 +82,10 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
         return $allCostPrices;
     }
 
-    /**
+        /**
      * Добавляем себестоимость в БД
      *
-     * @param $costPricePPName
+     * @param $costPricePPNumber
      * @param $costPricePPDate
      * @param $costPriceSum
      * @param $costPriceNote
@@ -93,11 +93,14 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
      * @return array|int
      * @throws Exception
      */
-    public function addCostPriceAction($costPricePPName, $costPricePPDate, $costPriceSum, $costPriceNote, $costPriceDealB24Id)
+    public function addCostPriceAction($costPricePPNumber, $costPricePPDate, $costPriceSum, $costPriceNote, $costPriceDealB24Id)
     {
+
+        $date = Bitrix\Main\Type\DateTime::createFromPhp(new \DateTime($costPricePPDate));
+
         $res = CostPriceTable::add([
-            'PP_NAME' => $costPricePPName,
-            'PP_DATE' => $costPricePPDate,
+            'PP_NUMBER' => $costPricePPNumber,
+            'PP_DATE' => $date,
             'SUM' => round($costPriceSum, 2),
             'NOTE' => $costPriceNote,
             'DEAL_B24_ID' => $costPriceDealB24Id,
