@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_executor;
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_work;
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_work_sk;
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_part;
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_part_sk;
+DROP TABLE IF EXISTS b_sladcovich_alphaautob24_entity_orm_cost_price;

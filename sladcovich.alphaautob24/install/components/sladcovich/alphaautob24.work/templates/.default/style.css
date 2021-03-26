@@ -1,0 +1,13 @@
+/* component */
+.slad-main-container {
+    height: max-content;
+    background-color: #ffffff;
+}
+.slad-padding-all-10 {
+    padding: 10px 10px 10px 10px;
+}
+
+/* select2 */
+.select2-container--open {
+    z-index: 9999999
+}
