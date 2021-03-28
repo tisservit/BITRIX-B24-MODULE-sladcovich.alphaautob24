@@ -43,7 +43,7 @@ $(document).ready(function () {
             tableItems.append('<tr>' +
                 '<td class="costprice-numeration-table-js">' + '' + '</td>' +
                 '<td>' + ppNumber + '</td>' +
-                '<td>' + ppDate + '</td>' +
+                '<td>' + ppDate + ' ₽</td>' +
                 '<td>' + sum + ' ₽</td>' +
                 '<td>' + note + '</td>' +
                 '<td>' + '<button data-id="' + costPriceId + '" data-role="costprice-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button>' + '</td>' +

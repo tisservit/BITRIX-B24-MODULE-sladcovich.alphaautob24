@@ -99,6 +99,7 @@ $(document).ready(function () {
                 '<td>' + '<button data-id="' + workId + '" data-role="work-table-executors" type="button" class="btn btn-warning" style="padding: 0px 10px 0px 10px"><i class="fa fa-group" style="font-size:18px"></i><span>  </span>В работе: <span data-role="work-table-executors-count" data-id="' + workId + '">0</span></button>' + '</td>' +
                 '<td>' + '<button data-id="' + workId + '" data-role="work-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button>' + '</td>' +
                 '</tr>');
+
             rewriteNumeration();
         }, function (response) {
             // error

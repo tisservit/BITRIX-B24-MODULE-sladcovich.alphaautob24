@@ -52,7 +52,7 @@ CJSCore::Init(['popup']);
 
         <? // Таблица ?>
         <div class="col-md-8 p-4">
-            <table class="table table-sm table-hover" style="overflow: auto">
+            <table class="table table-sm table-hover sladcovich-alphaautob24-table" style="overflow: auto">
 
                 <?// Заголовки ?>
                 <thead>
@@ -85,7 +85,7 @@ CJSCore::Init(['popup']);
                 </thead>
 
                 <?// Значения ?>
-                <tbody id="sladcovich-alphaautob24-costprice_table-items">
+                <tbody id="sladcovich-alphaautob24-work_table-items">
                 <? if(is_array($arResult['WORKS']) && count($arResult['WORKS']) > 0): ?>
 
                     <? $numeration = 1 ?>

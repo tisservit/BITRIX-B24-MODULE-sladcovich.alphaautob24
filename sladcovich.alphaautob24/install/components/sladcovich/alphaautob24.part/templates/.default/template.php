@@ -44,7 +44,7 @@ Loc::loadMessages(__FILE__);
 CJSCore::Init(['popup']);
 ?>
 
-<input id="sladcovich-alphaautob24-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
+<input id="sladcovich-alphaautob24-part-dealb24id" type="hidden" value="<?=($arResult['DEAL_ID'])?>">
 
 <div class="slad-main-container container-fluid">
 
@@ -52,31 +52,31 @@ CJSCore::Init(['popup']);
 
         <? // Таблица ?>
         <div class="col-md-8 p-4">
-            <table class="table table-sm table-hover" style="overflow: auto">
+            <table class="table table-sm table-hover sladcovich-alphaautob24-table" style="overflow: auto">
 
                 <?// Заголовки ?>
                 <thead>
                 <tr>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NUMBER');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_NUMBER');?>
+                    </th>
+                    <th>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_CATEGORY_NUMBER');?>
                     </th>
                     <th style="width: 333px;">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_NAME');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE');?> ₽
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_PRICE');?> ₽
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COEFFICIENT');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COUNT');?>
                     </th>
                     <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_SUM');?> ₽
-                    </th>
-                    <th>
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_EXECUTORS');?>
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_SUM');?> ₽
                     </th>
                     <th>
                         <? // Удаление ?>
@@ -85,26 +85,22 @@ CJSCore::Init(['popup']);
                 </thead>
 
                 <?// Значения ?>
-                <tbody id="sladcovich-alphaautob24-work_table-items">
-                <? if(is_array($arResult['WORKS']) && count($arResult['WORKS']) > 0): ?>
+                <tbody id="sladcovich-alphaautob24-part_table-items">
+                <? if(is_array($arResult['PARTS']) && count($arResult['PARTS']) > 0): ?>
 
                     <? $numeration = 1 ?>
 
-                    <? foreach ($arResult['WORKS'] as $arWork): ?>
+                    <? foreach ($arResult['PARTS'] as $arPart): ?>
                     <tr>
-                        <td class="work-numeration-table-js"><?=$numeration?></td>
-                        <td><?=$arWork['NAME']?></td>
-                        <td><?=$arWork['PRICE']?> ₽</td>
-                        <td><?=$arWork['NH']?></td>
-                        <td><?=$arWork['COUNT']?></td>
-                        <td><?=$arWork['SUM']?> ₽</td>
+                        <td class="part-numeration-table-js"><?=$numeration?></td>
+                        <td><?=$arPart['CATEGORY_NUMBER']?></td>
+                        <td><?=$arPart['NAME']?></td>
+                        <td><?=$arPart['PRICE']?> ₽</td>
+                        <td><?=$arPart['COEFFICIENT']?></td>
+                        <td><?=$arPart['COUNT']?></td>
+                        <td><?=$arPart['SUM']?> ₽</td>
                         <td>
-                            <button data-id="<?=$arWork['ID']?>" data-role="work-table-executors" type="button" class="btn btn-warning" style="padding: 0px 10px 0px 10px">
-                                <i class="fa fa-group" style="font-size:18px"></i><span>  </span>В работе: <span data-role="work-table-executors-count" data-id="<?=$arWork['ID']?>"><?=$arWork['EXECUTORS_COUNT']?></span>
-                            </button>
-                        </td>
-                        <td>
-                            <button data-id="<?=$arWork['ID']?>" data-role="work-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px">
+                            <button data-id="<?=$arPart['ID']?>" data-role="part-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px">
                                 <i class="fa fa-remove" style="font-size:24px"></i>
                             </button>
                         </td>
@@ -122,74 +118,89 @@ CJSCore::Init(['popup']);
 
         <? // Форма добавления ?>
         <div class="col-md-4 p-4">
-            <form role="form" id="sladcovich-alphaautob24-work_form">
+            <form role="form" id="sladcovich-alphaautob24-part_form">
+
+                <? // Поле - кат. № ?>
+                <div class="form-group">
+                    <label for="sladcovich-alphaautob24-part_category_number">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_CATEGORY_NUMBER');?>
+                    </label>
+                    <input
+                            name="sladcovich-alphaautob24-part_category_number"
+                            id="sladcovich-alphaautob24-part_category_number"
+                            type="text"
+                            class="form-control"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_CATEGORY_NUMBER_PLACEHOLDER');?>"
+                            required
+                    />
+                </div>
 
                 <? // Поле - наименование ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_name">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME');?>
+                    <label for="sladcovich-alphaautob24-part_name">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_NAME');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_name"
-                            id="sladcovich-alphaautob24-work_name"
+                            name="sladcovich-alphaautob24-part_name"
+                            id="sladcovich-alphaautob24-part_name"
                             type="text"
                             class="form-control"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NAME_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_NAME_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
                 <? // Поле - цена ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_price">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE');?>
+                    <label for="sladcovich-alphaautob24-part_price">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_PRICE');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_price"
-                            id="sladcovich-alphaautob24-work_price"
+                            name="sladcovich-alphaautob24-part_price"
+                            id="sladcovich-alphaautob24-part_price"
                             type="number"
                             class="form-control"
                             step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_PRICE_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_PRICE_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
                 <? // Поле - нормочас ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_nh">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH');?>
+                    <label for="sladcovich-alphaautob24-part_coefficient">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COEFFICIENT');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_nh"
-                            id="sladcovich-alphaautob24-work_nh"
+                            name="sladcovich-alphaautob24-part_coefficient"
+                            id="sladcovich-alphaautob24-part_coefficient"
                             type="number"
                             class="form-control"
                             step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_NH_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COEFFICIENT_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
                 <? // Поле - количество ?>
                 <div class="form-group">
-                    <label for="sladcovich-alphaautob24-work_count">
-                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT');?>
+                    <label for="sladcovich-alphaautob24-part_count">
+                        <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COUNT');?>
                     </label>
                     <input
-                            name="sladcovich-alphaautob24-work_count"
-                            id="sladcovich-alphaautob24-work_count"
+                            name="sladcovich-alphaautob24-part_count"
+                            id="sladcovich-alphaautob24-part_count"
                             type="number"
                             class="form-control"
                             step="0.01"
-                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_COUNT_PLACEHOLDER');?>"
+                            placeholder="<?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COUNT_PLACEHOLDER');?>"
                             required
                     />
                 </div>
 
                 <? // кнопка submit ?>
-                <button type="submit" class="ui-btn ui-btn-primary ui-btn-lg" style="width: 100%" id="sladcovich-alphaautob24-work_submit">
-                    <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORK_ADD');?>
+                <button type="submit" class="ui-btn ui-btn-primary ui-btn-lg" style="width: 100%" id="sladcovich-alphaautob24-part_submit">
+                    <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_ADD');?>
                 </button>
 
             </form>
