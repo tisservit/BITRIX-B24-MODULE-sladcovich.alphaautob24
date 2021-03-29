@@ -10,6 +10,38 @@ $(document).ready(function () {
         });
     }
 
+    function getAndSetNewTotalSum() {
+        BX.ajax.runComponentAction('sladcovich:alphaautob24.costprice', 'getNewTotalSum', {
+            mode: 'class', // это означает, что мы хотим вызывать действие из class.php
+            data: {
+                dealId: dealId
+            },
+        }).then(function (response) {
+            // success
+            let newTotalSum = response.data;
+            $('span[data-role="sladcovich-alphaautob24-costprice-total"]').text('Итого: ' + response.data + ' ₽');
+            BX.ajax.runComponentAction('sladcovich:alphaautob24.costprice', 'setNewTotalSum', {
+                mode: 'class', // это означает, что мы хотим вызывать действие из class.php
+                data: {
+                    dealId: dealId,
+                    newTotalSum: newTotalSum
+                },
+            }).then(function (response) {
+                // success
+            }, function (response) {
+                // error
+                console.log('SLADCOVICH - START');
+                console.log(response);
+                console.log('SLADCOVICH - END');
+            });
+        }, function (response) {
+            // error
+            console.log('SLADCOVICH - START');
+            console.log(response);
+            console.log('SLADCOVICH - END');
+        });
+    }
+
     // Table - добавление строки
     $('#sladcovich-alphaautob24-costprice_form').on('submit', function (e) {
         e.preventDefault();
@@ -49,6 +81,7 @@ $(document).ready(function () {
                 '<td>' + '<button data-id="' + costPriceId + '" data-role="costprice-table-remove" type="button" class="btn btn-danger" style="padding: 0px 10px 0px 10px"><i class="fa fa-remove" style="font-size:24px"></i></button>' + '</td>' +
                 '</tr>');
             rewriteNumeration();
+            getAndSetNewTotalSum();
         }, function (response) {
             // error
             console.log('SLADCOVICH - START');
@@ -69,6 +102,7 @@ $(document).ready(function () {
             // success
             thisEl.parent().parent().remove();
             rewriteNumeration();
+            getAndSetNewTotalSum();
         }, function (response) {
             // error
             console.log('SLADCOVICH - START');

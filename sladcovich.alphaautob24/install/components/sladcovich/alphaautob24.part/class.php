@@ -25,6 +25,8 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
             'getAllPartsByDealId' => ['getAllPartsByDealId' => []],
             'addPart' => ['addPart' => []],
             'deletePart' => ['deletePart' => []],
+            'getNewTotalSum' => ['getNewTotalSum' => []],
+            'setNewTotalSum' => ['setNewTotalSum' => []],
         ];
     }
 
@@ -41,7 +43,7 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
 
         $this->arResult['DEAL_ID'] = $this->arParams['DEAL_ID']['UF_DEAL_ID'];
         $this->arResult['PARTS'] = $this->getAllPartsByDealIdAction($this->arResult['DEAL_ID']);
-
+        $this->arResult['TOTAL_SUM'] = $this->getNewTotalSumAction($this->arResult['DEAL_ID']);
         $this->includeComponentTemplate();
     }
 
@@ -63,6 +65,8 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
     {
         $allParts = [];
 
+        $totalSum = 0;
+
         $res = PartTable::getList([
             'select' => ['ID', 'CATEGORY_NUMBER', 'NAME', 'PRICE', 'COEFFICIENT', 'COUNT', 'SUM'],
             'filter' => ['DEAL_B24_ID' => $dealId],
@@ -79,7 +83,11 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
                 'COUNT' => $row['COUNT'],
                 'SUM' => $row['SUM'],
             ];
+
+            $totalSum = $totalSum + $row['SUM'];
         }
+
+        $this->arResult['TOTAL_SUM'] = $totalSum;
 
         return $allParts;
     }
@@ -128,5 +136,38 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
         $part = PartTable::getByPrimary($partId)->fetchObject();
 
         return $part->delete();
+    }
+
+    /**
+     * Получаем сумму итого
+     *
+     * @param $dealId
+     * @return int|mixed
+     */
+    public function getNewTotalSumAction($dealId)
+    {
+        $totalSum = 0;
+
+        $res = PartTable::getList([
+            'select' => ['ID', 'SUM',],
+            'filter' => ['DEAL_B24_ID' => $dealId],
+            'order' => ['ID']
+        ]);
+        while ($row = $res->fetch())
+        {
+            $totalSum = $totalSum + $row['SUM'];
+        }
+
+        return $totalSum;
+    }
+
+    /**
+     * Указываем сумму итого в пользовательское поле
+     * @param $dealId
+     * @param $newTotalSum
+     */
+    public function setNewTotalSumAction($dealId, $newTotalSum)
+    {
+        $GLOBALS["USER_FIELD_MANAGER"]->Update("CRM_DEAL", $dealId, Array("UF_PART_TOTAL_SUM" => $newTotalSum));
     }
 }

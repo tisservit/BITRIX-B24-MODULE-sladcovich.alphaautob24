@@ -76,6 +76,7 @@ CJSCore::Init(['popup']);
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_COUNT');?>
                     </th>
                     <th>
+                        <span data-role="sladcovich-alphaautob24-part-total" class="sladcovich-alphaautob24-part-total btn-info"><?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_TOTAL_SUM');?><?=$arResult['TOTAL_SUM']?> ₽</span>
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_PART_SUM');?> ₽
                     </th>
                     <th>

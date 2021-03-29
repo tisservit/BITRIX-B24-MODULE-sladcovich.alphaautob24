@@ -9,6 +9,11 @@
 .sladcovich-alphaautob24-table {
     font-size: 12px;
 }
+.sladcovich-alphaautob24-work-total {
+    position: absolute;
+    top: 6px;
+    padding: 1px 3px 1px 3px
+}
 
 /* select2 */
 .select2-container--open {

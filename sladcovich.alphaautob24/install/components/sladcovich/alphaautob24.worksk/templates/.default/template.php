@@ -73,6 +73,7 @@ CJSCore::Init(['popup']);
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORKSK_COUNT');?>
                     </th>
                     <th>
+                        <span data-role="sladcovich-alphaautob24-worksk-total" class="sladcovich-alphaautob24-worksk-total btn-info"><?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORKSK_TOTAL_SUM');?><?=$arResult['TOTAL_SUM']?> ₽</span>
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_WORKSK_SUM');?> ₽
                     </th>
                     <th>

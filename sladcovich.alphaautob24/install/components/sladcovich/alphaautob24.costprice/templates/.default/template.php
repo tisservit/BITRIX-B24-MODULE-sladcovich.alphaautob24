@@ -67,6 +67,7 @@ Loc::loadMessages(__FILE__);
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_PP_DATE');?>
                     </th>
                     <th>
+                        <span data-role="sladcovich-alphaautob24-costprice-total" class="sladcovich-alphaautob24-costprice-total btn-info"><?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_TOTAL_SUM');?><?=$arResult['TOTAL_SUM']?> ₽</span>
                         <?echo Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_COST_PRICE_SUM');?> ₽
                     </th>
                     <th style="width: 400px;">

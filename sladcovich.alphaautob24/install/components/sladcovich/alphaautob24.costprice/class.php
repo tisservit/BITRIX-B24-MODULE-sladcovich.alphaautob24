@@ -25,6 +25,8 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
             'getAllCostPricesByDealId' => ['getAllCostPricesByDealId' => []],
             'addCostPrice' => ['addCostPrice' => []],
             'deleteCostPrice' => ['deleteCostPrice' => []],
+            'getNewTotalSum' => ['getNewTotalSum' => []],
+            'setNewTotalSum' => ['setNewTotalSum' => []],
         ];
     }
 
@@ -41,7 +43,7 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
 
         $this->arResult['DEAL_ID'] = $this->arParams['DEAL_ID']['UF_DEAL_ID'];
         $this->arResult['COST_PRICES'] = $this->getAllCostPricesByDealIdAction($this->arResult['DEAL_ID']);
-
+        $this->arResult['TOTAL_SUM'] = $this->getNewTotalSumAction($this->arResult['DEAL_ID']);
         $this->includeComponentTemplate();
     }
 
@@ -82,7 +84,7 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
         return $allCostPrices;
     }
 
-        /**
+    /**
      * Добавляем себестоимость в БД
      *
      * @param $costPricePPNumber
@@ -126,5 +128,38 @@ class Alphaautob24CostPriceComponent extends CBitrixComponent implements Control
         $work = CostPriceTable::getByPrimary($costPriceId)->fetchObject();
 
         return $work->delete();
+    }
+
+    /**
+     * Получаем сумму итого
+     *
+     * @param $dealId
+     * @return int|mixed
+     */
+    public function getNewTotalSumAction($dealId)
+    {
+        $totalSum = 0;
+
+        $res = CostPriceTable::getList([
+            'select' => ['ID', 'SUM',],
+            'filter' => ['DEAL_B24_ID' => $dealId],
+            'order' => ['ID']
+        ]);
+        while ($row = $res->fetch())
+        {
+            $totalSum = $totalSum + $row['SUM'];
+        }
+
+        return $totalSum;
+    }
+
+    /**
+     * Указываем сумму итого в пользовательское поле
+     * @param $dealId
+     * @param $newTotalSum
+     */
+    public function setNewTotalSumAction($dealId, $newTotalSum)
+    {
+        $GLOBALS["USER_FIELD_MANAGER"]->Update("CRM_DEAL", $dealId, Array("UF_COST_PRICE_TOTAL_SUM" => $newTotalSum));
     }
 }
