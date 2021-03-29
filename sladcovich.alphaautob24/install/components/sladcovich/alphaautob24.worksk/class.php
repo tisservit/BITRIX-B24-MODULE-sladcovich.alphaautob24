@@ -102,7 +102,7 @@ class Alphaautob24WorkSKComponent extends CBitrixComponent implements Controller
             'PRICE' => round($workSKPrice, 2),
             'NH' => round($workSKNH, 2),
             'COUNT' => round($workSKCount, 2),
-            'SUM' => round(($workSKPrice * $workSKCount), 2),
+            'SUM' => round(($workSKPrice * $workSKNH * $workSKCount), 2),
             'DEAL_B24_ID' => $workSKDealB24Id,
         ]);
 

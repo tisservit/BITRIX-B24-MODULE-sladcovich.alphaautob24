@@ -70,7 +70,7 @@ $(document).ready(function () {
             workSKId = response.data;
             $('#sladcovich-alphaautob24-worksk_form')[0].reset();
 
-            let sum = price * count;
+            let sum = price * nh * count;
 
             let tableItems = $('#sladcovich-alphaautob24-worksk_table-items');
 

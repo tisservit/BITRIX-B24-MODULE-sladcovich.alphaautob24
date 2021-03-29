@@ -117,7 +117,7 @@ $(document).ready(function () {
             workId = response.data;
             $('#sladcovich-alphaautob24-work_form')[0].reset();
 
-            let sum = price * count;
+            let sum = price * nh * count;
 
             let tableItems = $('#sladcovich-alphaautob24-work_table-items');
 

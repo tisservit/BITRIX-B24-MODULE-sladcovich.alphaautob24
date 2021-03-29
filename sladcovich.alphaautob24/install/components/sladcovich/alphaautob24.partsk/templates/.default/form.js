@@ -51,7 +51,7 @@ $(document).ready(function () {
         let price = $('#sladcovich-alphaautob24-partsk_price').val();
         let coefficient = $('#sladcovich-alphaautob24-partsk_coefficient').val();
         let count = $('#sladcovich-alphaautob24-partsk_count').val();
-        let sum = price * count;
+        let sum = price * coefficient * count;
 
         let partSKId = 0;
 
