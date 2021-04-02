@@ -328,4 +328,41 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
     {
         $GLOBALS["USER_FIELD_MANAGER"]->Update("CRM_DEAL", $dealId, Array("UF_WORK_TOTAL_SUM" => $newTotalSum));
     }
+
+    /**
+     * Получаем все работы и их общую сумму
+     *
+     * @param $dealId
+     * @return array
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function getAllWorksByDealIdForXLSXDocument($dealId)
+    {
+        $allWorks = [];
+        $totalSum = 0;
+
+        $res = WorkTable::getList([
+            'select' => ['ID', 'NAME', 'PRICE', 'NH', 'COUNT', 'SUM'],
+            'filter' => ['DEAL_B24_ID' => $dealId],
+            'order' => ['ID']
+        ]);
+        while ($row = $res->fetch())
+        {
+            $allWorks[$row['ID']] = [
+                'NAME' => $row['NAME'],
+                'PRICE' => $row['PRICE'],
+                'NH' => $row['NH'],
+                'COUNT' => $row['COUNT'],
+                'SUM' => $row['SUM']
+            ];
+
+            $totalSum = $totalSum + $row['SUM'];
+        }
+
+        $allWorks['TOTAL_WORKS_SUM'] = $totalSum;
+
+        return $allWorks;
+    }
 }

@@ -185,3 +185,51 @@ if($arResult['CONVERSION_PERMITTED'] && $arResult['CAN_CONVERT'] && isset($arRes
 		);
 	</script><?
 endif;
+?>
+
+<? // SLADCOVICH возможность экспорта "заказ наряд работы и запчасти" - START ?>
+<?
+if(class_exists('\PhpOffice\PhpSpreadsheet\Spreadsheet')):
+Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/bs_4/js/jquery.min.js');
+?>
+    <script>
+        let dealId = <?=$arResult['ENTITY_ID']?>;
+        function getDocumentXLSX() {
+            BX.ajax.runComponentAction('sladcovich:alphaautob24.worksparts.export.xlsx', 'createDocumentXLSX', {
+                mode: 'class', // это означает, что мы хотим вызывать действие из class.php
+                data: {
+                    dealId: dealId,
+                },
+            }).then(function (response) {
+                // success
+                let download = document.createElement('a');
+                download.setAttribute('href', '<?=$_SERVER['DOCUMENT_ROOT']?>/local/components/sladcovich/alphaautob24.worksparts.export.xlsx/export/' + response.data);
+                download.setAttribute('download', response.data);
+                download.click();
+            }, function (response) {
+                // error
+                console.log('SLADCOVICH - START');
+                console.log(response);
+                console.log('SLADCOVICH - END');
+            });
+        }
+        $(document).ready(function () {
+            let catchURL = '/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getButtonTemplates';
+            BX.addCustomEvent('onAjaxSuccessFinish', function (e) {
+                if (e.url === catchURL) {
+                    let popupMenuDoc = $('#popup-window-content-menu-popup-toolbar_deal_details_' + dealId + '_document_menu');
+                    let menuItems = popupMenuDoc.children().children();
+                    let exportXLSX = '' +
+                        '<span class="menu-popup-item menu-popup-no-icon" onclick="getDocumentXLSX()">' +
+                        '<span class="menu-popup-item-icon"></span>' +
+                        '<span class="menu-popup-item-text">Экспорт XLSX (работы + запчасти)</span>' +
+                        '</span>' +
+                        '';
+                    menuItems.prepend(exportXLSX);
+                }
+            });
+        });
+    </script>
+<? // SLADCOVICH возможность экспорта "заказ наряд работы и запчасти" - END ?>
+<? endif; ?>
+<?

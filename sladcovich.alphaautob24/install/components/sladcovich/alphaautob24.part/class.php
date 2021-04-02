@@ -170,4 +170,41 @@ class Alphaautob24PartComponent extends CBitrixComponent implements Controllerab
     {
         $GLOBALS["USER_FIELD_MANAGER"]->Update("CRM_DEAL", $dealId, Array("UF_PART_TOTAL_SUM" => $newTotalSum));
     }
+
+    /**
+     * Получаем все запчасти и их общую сумму
+     *
+     * @param $dealId
+     * @return array
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function getAllPartsByDealIdForXLSXDocument($dealId)
+    {
+        $allParts = [];
+        $totalSum = 0;
+
+        $res = PartTable::getList([
+            'select' => ['ID', 'CATEGORY_NUMBER', 'NAME', 'PRICE', 'COUNT', 'SUM'],
+            'filter' => ['DEAL_B24_ID' => $dealId],
+            'order' => ['ID']
+        ]);
+        while ($row = $res->fetch())
+        {
+            $allParts[$row['ID']] = [
+                'CATEGORY_NUMBER' => $row['CATEGORY_NUMBER'],
+                'NAME' => $row['NAME'],
+                'PRICE' => $row['PRICE'],
+                'COUNT' => $row['COUNT'],
+                'SUM' => $row['SUM'],
+            ];
+
+            $totalSum = $totalSum + $row['SUM'];
+        }
+
+        $allParts['TOTAL_PARTS_SUM'] = $totalSum;
+
+        return $allParts;
+    }
 }
