@@ -162,8 +162,6 @@ Class sladcovich_alphaautob24 extends \CModule
         // todo: WARNING !!! this is rewrite default bitrix components in /local/components/bitrix/ - better find another decision in future
         // create additional tab in deal card
         CopyDirFiles(__DIR__ . '/components/bitrix/crm.deal.details/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/crm.deal.details/', true, true);
-        //CopyDirFiles(__DIR__ . '/components/bitrix/crm.deal.details/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/crm.entity.details/', true, true);
-        //CopyDirFiles(__DIR__ . '/components/bitrix/crm.deal.details/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/bitrix/ui.toolbar/', true, true);
 
         return true;
     }
