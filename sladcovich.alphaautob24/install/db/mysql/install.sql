@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `b_sladcovich_alphaautob24_entity_orm_executor`
     `PARTICIPATION_PERCENT` decimal(12,2) DEFAULT NULL COMMENT '% участия',
 
     `USER_B24_ID` int NOT NULL COMMENT 'ID исполнителя (Битрикс 24)',
-    `DEAL_B24_ID` int NOT NULL COMMENT 'ID сделки (Битрикс 24)',
+    `DEAL_B24_ID` int unsigned NOT NULL COMMENT 'ID сделки (Битрикс 24)',
 
     `WORK_ID` int NOT NULL COMMENT 'ID работы',
 

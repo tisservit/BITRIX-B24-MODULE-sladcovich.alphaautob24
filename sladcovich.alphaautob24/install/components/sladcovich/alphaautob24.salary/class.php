@@ -102,7 +102,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
         if (isset($arParams['WORKERS_PERCENT']) && $arParams['WORKERS_PERCENT'] > 0) {
             self::$workersPercent = $arParams['WORKERS_PERCENT'];;
         } else {
-            self::$workersPercent = 100;
+            self::$workersPercent = 1;
         }
     }
 
@@ -329,9 +329,23 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
                     $currentSalarySum = 0;
 
-                    
+                    $res = ExecutorTable::getList([
+                        'select' => ['WORK_ID', 'PARTICIPATION_PERCENT'],
+                        'filter' => ['DEAL_B24_ID' => $delaId, 'USER_B24_ID' => $userId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $subRes = WorkTable::getList([
+                            'select' => ['SUM'],
+                            'filter' => ['ID' => $row['WORK_ID']]
+                        ]);
+                        while ($subRow = $subRes->fetch())
+                        {
+                            $currentSalarySum = $currentSalarySum + ($subRow['SUM'] * ($row['PARTICIPATION_PERCENT']/100));
+                        }
+                    }
 
-                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$partsPercent);
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$workersPercent);
 
                     $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
                     $dealCount = $dealCount + 1;
