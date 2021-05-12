@@ -93,12 +93,13 @@ Class sladcovich_alphaautob24 extends \CModule
      */
     public function DoInstall()
     {
-        if (!$this->InstallDB()) {
-            return false; // break installation with error
-        }
-        if (!$this->InstallFiles()) {
-            return false; // break installation with error
-        }
+//        if (!$this->InstallDB()) {
+//            return false; // break installation with error
+//        }
+//        if (!$this->InstallFiles()) {
+//            return false; // break installation with error
+//        }
+
         ModuleManager::registerModule($this->MODULE_ID); // register module in system
     }
 
@@ -110,12 +111,14 @@ Class sladcovich_alphaautob24 extends \CModule
      */
     public function DoUninstall()
     {
-        if (!$this->UnInstallDB()) {
-            return false; // break uninstallation with error
-        }
-        if (!$this->UnInstallFiles()) {
-            return false; // break installation with error
-        }
+
+//        if (!$this->UnInstallDB()) {
+//            return false; // break uninstallation with error
+//        }
+//        if (!$this->UnInstallFiles()) {
+//            return false; // break installation with error
+//        }
+
         ModuleManager::unRegisterModule($this->MODULE_ID); // register module in system
     }
 

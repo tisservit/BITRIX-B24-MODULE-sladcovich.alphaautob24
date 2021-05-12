@@ -9,6 +9,11 @@ use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 
 use Sladcovich\Alphaautob24\Entity\ORM\WorkTable;
+use Sladcovich\Alphaautob24\Entity\ORM\WorkSKTable;
+
+use \Sladcovich\Alphaautob24\Entity\ORM\PartSKTable;
+use \Sladcovich\Alphaautob24\Entity\ORM\PartTable;
+
 use Sladcovich\Alphaautob24\Entity\ORM\ExecutorTable;
 
 use Sladcovich\Alphaautob24\Helpers\UserHelper;
@@ -19,29 +24,29 @@ Loader::includeModule('sladcovich.alphaautob24');
 class Alphaautob24SalaryComponent extends CBitrixComponent implements Controllerable
 {
     /**
-     * @var int - Коэффициент в % для менеджеров "Московский отдел
+     * @var float - Коэффициент в % для менеджеров "Московский отдел
      */
-    protected static $moscowManagersPercent = 0;
+    protected static $moscowManagersPercent = 0.00;
 
     /**
-     * @var int - Коэффициент в % для менеджеров "Региональный отдел"
+     * @var float - Коэффициент в % для менеджеров "Региональный отдел"
      */
-    protected static $regionManagersPercent = 0;
+    protected static $regionManagersPercent = 0.00;
 
     /**
-     * @var int - Коэффициент в % для работников по запчастям
+     * @var float - Коэффициент в % для работников по запчастям
      */
-    protected static $partsPercent = 0;
+    protected static $partsPercent = 0.00;
 
     /**
-     * @var int - Коэффициент в % для экспертов
+     * @var float - Коэффициент в % для экспертов
      */
-    protected static $expertsPercent = 0;
+    protected static $expertsPercent = 0.00;
 
     /**
-     * @var int - Коэффициент в % для мастеров
+     * @var float - Коэффициент в % для мастеров
      */
-    protected static $workersPercent = 0;
+    protected static $workersPercent = 0.00;
 
     /**
      * @var array - Массив пользователей отчетных отделов и их принадлежность к одному из отчетных отделов
@@ -73,25 +78,25 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
         if (isset($arParams['MOSCOW_MANAGERS_PERCENT']) && $arParams['MOSCOW_MANAGERS_PERCENT'] > 0) {
             self::$moscowManagersPercent = $arParams['MOSCOW_MANAGERS_PERCENT'];;
         } else {
-            self::$moscowManagersPercent = 4;
+            self::$moscowManagersPercent = 0.04;
         }
 
         if (isset($arParams['REGION_MANAGERS_PERCENT']) && $arParams['REGION_MANAGERS_PERCENT'] > 0) {
             self::$regionManagersPercent = $arParams['REGION_MANAGERS_PERCENT'];;
         } else {
-            self::$regionManagersPercent = 5;
+            self::$regionManagersPercent = 0.05;
         }
 
         if (isset($arParams['PARTS_PERCENT']) && $arParams['PARTS_PERCENT'] > 0) {
             self::$partsPercent = $arParams['PARTS_PERCENT'];;
         } else {
-            self::$partsPercent = 1;
+            self::$partsPercent = 0.01;
         }
 
         if (isset($arParams['EXPERTS_PERCENT']) && $arParams['EXPERTS_PERCENT'] > 0) {
             self::$expertsPercent = $arParams['EXPERTS_PERCENT'];;
         } else {
-            self::$expertsPercent = 1;
+            self::$expertsPercent = 0.01;
         }
 
         if (isset($arParams['WORKERS_PERCENT']) && $arParams['WORKERS_PERCENT'] > 0) {
@@ -152,29 +157,190 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
                 $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
 
+                $totalSalarySum = 0;
+                $dealCount = 0;
+
+                foreach ($arClosedDeals as $delaId => $arDeal)
+                {
+
+                    $currentSalarySum = 0;
+
+                    $res = WorkSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $res = PartSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$moscowManagersPercent);
+
+                    $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
+                    $dealCount = $dealCount + 1;
+                }
+
+                $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
+                $arClosedDeals['TOTAL_DEALS_COUNT'] = $dealCount;
+
                 return $arClosedDeals;
 
-                break;
             case 'REGION_MANAGERS':
 
+                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
 
+                $totalSalarySum = 0;
+                $dealCount = 0;
 
-                break;
+                foreach ($arClosedDeals as $delaId => $arDeal)
+                {
+
+                    $currentSalarySum = 0;
+
+                    $res = WorkSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $res = PartSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$regionManagersPercent);
+
+                    $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
+                    $dealCount = $dealCount + 1;
+                }
+
+                $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
+                $arClosedDeals['TOTAL_DEALS_COUNT'] = $dealCount;
+
+                return $arClosedDeals;
+
             case 'PARTS':
 
+                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_MANAGER_OZ');
 
+                $totalSalarySum = 0;
+                $dealCount = 0;
 
-                break;
+                foreach ($arClosedDeals as $delaId => $arDeal)
+                {
+
+                    $currentSalarySum = 0;
+
+                    $res = WorkSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $res = PartSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$partsPercent);
+
+                    $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
+                    $dealCount = $dealCount + 1;
+                }
+
+                $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
+                $arClosedDeals['TOTAL_DEALS_COUNT'] = $dealCount;
+
+                return $arClosedDeals;
+
             case 'EXPERTS':
 
+                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_EXPERT');
 
+                $totalSalarySum = 0;
+                $dealCount = 0;
 
-                break;
+                foreach ($arClosedDeals as $delaId => $arDeal)
+                {
+
+                    $currentSalarySum = 0;
+
+                    $res = WorkSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $res = PartSKTable::getList([
+                        'select' => ['SUM'],
+                        'filter' => ['DEAL_B24_ID' => $delaId]
+                    ]);
+                    while ($row = $res->fetch())
+                    {
+                        $currentSalarySum = $currentSalarySum + $row['SUM'];
+                    }
+
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$partsPercent);
+
+                    $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
+                    $dealCount = $dealCount + 1;
+                }
+
+                $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
+                $arClosedDeals['TOTAL_DEALS_COUNT'] = $dealCount;
+
+                return $arClosedDeals;
+
             case 'WORKERS':
 
+                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId);
 
+                $totalSalarySum = 0;
+                $dealCount = 0;
 
-                break;
+                foreach ($arClosedDeals as $delaId => $arDeal)
+                {
+
+                    $currentSalarySum = 0;
+
+                    
+
+                    $arClosedDeals[$delaId]['SALARY'] = ($currentSalarySum * self::$partsPercent);
+
+                    $totalSalarySum = $totalSalarySum + $arClosedDeals[$delaId]['SALARY'];
+                    $dealCount = $dealCount + 1;
+                }
+
+                $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
+                $arClosedDeals['TOTAL_DEALS_COUNT'] = $dealCount;
+
+                return $arClosedDeals;
         }
     }
 

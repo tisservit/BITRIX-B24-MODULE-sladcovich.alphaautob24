@@ -39,6 +39,9 @@ class ExecutorTable extends Entity\DataManager
             new Entity\IntegerField('USER_B24_ID',          ['title'=> 'ID исполнителя (Битрикс 24)']),
             new Entity\ReferenceField('USER_B24', 'Bitrix\Main\UserTable', ['=this.USER_B24_ID' => 'ref.ID']),
 
+            new Entity\IntegerField('DEAL_B24_ID',          ['title'=> 'ID сделки (Битрикс 24)']),
+            new Entity\ReferenceField('DEAL_B24', 'Bitrix\Crm\DealTable', ['=this.DEAL_ID_B24' => 'ref.ID']),
+
             new Entity\IntegerField('WORK_ID',              ['title'=> 'ID работы']),
             new Entity\ReferenceField('WORK', 'Sladcovich\Alphaautob24\Entity\ORM\WorkTable', ['=this.WORK_ID' => 'ref.ID']),
         ];

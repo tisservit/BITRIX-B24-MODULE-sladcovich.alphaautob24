@@ -311,6 +311,7 @@ $(document).ready(function () {
                 executorParticipationPercent: percent,
                 executorUserB24Id: executorId,
                 executorWorkId: popupWorkId,
+                executorDealB24Id: dealId,
             },
         }).then(function (response) {
             // success

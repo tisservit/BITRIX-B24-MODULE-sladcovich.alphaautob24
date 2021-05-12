@@ -262,16 +262,17 @@ class Alphaautob24WorkComponent extends CBitrixComponent implements Controllerab
      * @param $executorParticipationPercent
      * @param $executorUserB24Id
      * @param $executorWorkId
-     * @return array|int
-     * @throws Exception
+     * @param $executorDealB24Id
+     * @return mixed
      */
-    public function addExecutorAction($executorParticipationPercent, $executorUserB24Id, $executorWorkId)
+    public function addExecutorAction($executorParticipationPercent, $executorUserB24Id, $executorWorkId, $executorDealB24Id)
     {
 
         $res = ExecutorTable::add([
             'PARTICIPATION_PERCENT' => round($executorParticipationPercent, 2),
             'USER_B24_ID' => $executorUserB24Id,
-            'WORK_ID' => $executorWorkId
+            'WORK_ID' => $executorWorkId,
+            'DEAL_B24_ID' => $executorDealB24Id
         ]);
 
         if ($res->isSuccess())

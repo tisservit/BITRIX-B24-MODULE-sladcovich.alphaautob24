@@ -26,10 +26,14 @@ CREATE TABLE IF NOT EXISTS `b_sladcovich_alphaautob24_entity_orm_executor`
     `PARTICIPATION_PERCENT` decimal(12,2) DEFAULT NULL COMMENT '% участия',
 
     `USER_B24_ID` int NOT NULL COMMENT 'ID исполнителя (Битрикс 24)',
+    `DEAL_B24_ID` int NOT NULL COMMENT 'ID сделки (Битрикс 24)',
+
     `WORK_ID` int NOT NULL COMMENT 'ID работы',
 
     CONSTRAINT `executor_user_id_b24_FK`
         FOREIGN KEY (`USER_B24_ID`) REFERENCES `b_user` (`ID`),
+    CONSTRAINT `executor_deal_id_b24_FK`
+        FOREIGN KEY (`DEAL_B24_ID`) REFERENCES `b_crm_deal` (`ID`),
     CONSTRAINT `executor_work_id_FK`
         FOREIGN KEY (`WORK_ID`) REFERENCES `b_sladcovich_alphaautob24_entity_orm_work` (`ID`)
 ) COMMENT='Участие исполнителей в работах';
