@@ -155,7 +155,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
         {
             case 'MOSCOW_MANAGERS':
 
-                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
+                $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
 
                 $totalSalarySum = 0;
                 $dealCount = 0;
@@ -196,7 +196,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
             case 'REGION_MANAGERS':
 
-                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
+                $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
 
                 $totalSalarySum = 0;
                 $dealCount = 0;
@@ -237,7 +237,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
             case 'PARTS':
 
-                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_MANAGER_OZ');
+                $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_MANAGER_OZ');
 
                 $totalSalarySum = 0;
                 $dealCount = 0;
@@ -278,7 +278,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
             case 'EXPERTS':
 
-                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_EXPERT');
+                $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'UF_EXPERT');
 
                 $totalSalarySum = 0;
                 $dealCount = 0;
@@ -319,7 +319,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
             case 'WORKERS':
 
-                $arClosedDeals = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId);
+                $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId);
 
                 $totalSalarySum = 0;
                 $dealCount = 0;
