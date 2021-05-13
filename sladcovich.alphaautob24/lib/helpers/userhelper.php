@@ -107,15 +107,12 @@ class UserHelper
                 $arDepartmentId[] = $departmentId;
             }
             $headsOFDepartments = \CIntranetUtils::GetDepartmentManager($arDepartmentId);
-
-            //return $users;
-
             foreach ($users as $userId => $arUser) {
                 if (array_key_exists($userId, $headsOFDepartments)) {
                     unset($users[$userId]);
                 }
             }
-
+            $users = array_values($users);
         }
 
         return $users;
