@@ -77,7 +77,7 @@ class UserHelper
 
             if ($forSelect2 === true)
             {
-                $users[] = [
+                $users[$row['ID']] = [
                     'id' => intval($row['ID']),
                     'text' => ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']),
                     'selected' => ($USER->getId() == intval($row['ID'])) ? 'true' : ''
@@ -98,6 +98,29 @@ class UserHelper
             if ($forSelect2 === false && $forSalaryReport === false)
             {
                 $users[intval($row['ID'])] = ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']);
+            }
+
+        }
+
+        // Убираем руководителей подразделений из отчета
+        if ($forSelect2 === true && $forSalaryReport === true)
+        {
+            $arDepartmentId = [];
+            $headsOFDepartments = [];
+            foreach (self::$arReportDepartments as $departmentId )
+            {
+                $arDepartmentId[] = $departmentId;
+            }
+            $headsOFDepartments = \CIntranetUtils::GetDepartmentManager($arDepartmentId);
+
+            //return $users;
+
+            foreach ($users as $userId => $arUser)
+            {
+                if (array_key_exists($userId, $headsOFDepartments))
+                {
+                    $users[$userId] = NULL;
+                }
             }
 
         }
