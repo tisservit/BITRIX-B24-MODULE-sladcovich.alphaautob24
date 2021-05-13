@@ -51,16 +51,14 @@ class UserHelper
             'SECOND_NAME'
         ];
 
-        if ($forSalaryReport === true)
-        {
+        if ($forSalaryReport === true) {
             $arSelect[] = 'UF_DEPARTMENT';
             self::detectReportDepartments();
             // Строим фильтр по подразделениям отчета
             $arFilter = [
                 'LOGIC' => 'OR'
             ];
-            foreach (self::$arReportDepartments as $departmentId)
-            {
+            foreach (self::$arReportDepartments as $departmentId) {
                 $arFilter[] = [
                     'UF_DEPARTMENT' => $departmentId
                 ];
@@ -75,51 +73,46 @@ class UserHelper
 
         while ($row = $res->fetch()) {
 
-            if ($forSelect2 === true)
-            {
-                $users[$row['ID']] = [
-                    'id' => intval($row['ID']),
-                    'text' => ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']),
-                    'selected' => ($USER->getId() == intval($row['ID'])) ? 'true' : ''
-                ];
+            if ($forSelect2 === true) {
+
+                if (count($row['UF_DEPARTMENT']) !== 0)
+                {
+                    $users[$row['ID']] = [
+                        'id' => intval($row['ID']),
+                        'text' => ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']),
+                        'selected' => ($USER->getId() == intval($row['ID'])) ? 'true' : '',
+                    ];
+                }
             }
 
-            if ($forSelect2 === false && $forSalaryReport === true)
-            {
-                foreach (self::$arReportDepartments as $departmentCode => $departmentId)
-                {
-                    if ($row['UF_DEPARTMENT'][0] === $departmentId)
-                    {
+            if ($forSelect2 === false && $forSalaryReport === true) {
+                foreach (self::$arReportDepartments as $departmentCode => $departmentId) {
+                    if ($row['UF_DEPARTMENT'][0] === $departmentId) {
                         $users[$row['ID']] = $departmentCode;
                     }
                 }
             }
 
-            if ($forSelect2 === false && $forSalaryReport === false)
-            {
+            if ($forSelect2 === false && $forSalaryReport === false) {
                 $users[intval($row['ID'])] = ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']);
             }
 
         }
 
         // Убираем руководителей подразделений из отчета
-        if ($forSelect2 === true && $forSalaryReport === true)
-        {
+        if ($forSelect2 === true && $forSalaryReport === true) {
             $arDepartmentId = [];
             $headsOFDepartments = [];
-            foreach (self::$arReportDepartments as $departmentId )
-            {
+            foreach (self::$arReportDepartments as $departmentId) {
                 $arDepartmentId[] = $departmentId;
             }
             $headsOFDepartments = \CIntranetUtils::GetDepartmentManager($arDepartmentId);
 
             //return $users;
 
-            foreach ($users as $userId => $arUser)
-            {
-                if (array_key_exists($userId, $headsOFDepartments))
-                {
-                    $users[$userId] = NULL;
+            foreach ($users as $userId => $arUser) {
+                if (array_key_exists($userId, $headsOFDepartments)) {
+                    unset($users[$userId]);
                 }
             }
 
@@ -144,8 +137,7 @@ class UserHelper
             'select' => ['ID'],
             'filter' => ['CODE' => 'departments']
         ]);
-        while ($row = $res->fetch())
-        {
+        while ($row = $res->fetch()) {
             $departmentIblockId = $row['ID'];
         }
 
@@ -154,12 +146,9 @@ class UserHelper
             'select' => ['ID', 'CODE'],
             'filter' => ['IBLOCK_ID' => $departmentIblockId, '!CODE' => NULL,]
         ]);
-        while ($row = $res->fetch())
-        {
-            foreach (self::$arReportDepartments as $departmentCode => $departmentId)
-            {
-                if ($row['CODE'] === $departmentCode)
-                {
+        while ($row = $res->fetch()) {
+            foreach (self::$arReportDepartments as $departmentCode => $departmentId) {
+                if ($row['CODE'] === $departmentCode) {
                     self::$arReportDepartments[$departmentCode] = intval($row['ID']);
                 }
             }
