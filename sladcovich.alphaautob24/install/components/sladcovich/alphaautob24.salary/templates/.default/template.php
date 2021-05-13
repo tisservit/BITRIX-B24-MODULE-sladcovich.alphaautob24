@@ -28,7 +28,16 @@ Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/select2/js/
 
     <div class="row">
 
-        <div class="col-md-9 p-4" id="sladcovich-alphaautob24-salary__table">
+        <div class="col-md-9 p-4">
+
+            <div class="cssload-thecube" id="sladcovich-alphaautob24-salary__loading" style="display: none">
+                <div class="cssload-cube cssload-c1"></div>
+                <div class="cssload-cube cssload-c2"></div>
+                <div class="cssload-cube cssload-c4"></div>
+                <div class="cssload-cube cssload-c3"></div>
+            </div>
+
+            <div id="sladcovich-alphaautob24-salary__table"></div>
 
         </div>
 
@@ -84,7 +93,8 @@ Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/select2/js/
     $(document).ready(function () {
 
         let table = $('#sladcovich-alphaautob24-salary__table');
-
+        let loading = $('#sladcovich-alphaautob24-salary__loading');
+        
         // Добавляем пользователей в select2
         $('#sladcovich-alphaautob24-salary__employee').select2({
             data: <?=\Bitrix\Main\Web\Json::encode($arResult['USERS']);?>,
@@ -100,6 +110,10 @@ Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/select2/js/
         // Получить данные для отчета
         $('#sladcovich-alphaautob24-salary__submit').on('click', function (e) {
             e.preventDefault();
+
+            // Очищаем предыдущую результирующую таблицу если она существует
+            let tableResult = $('#sladcovich-alphaautob24-salary__table_result');
+            if (tableResult !== undefined) { tableResult.remove(); }
 
             let dateFrom = $('#sladcovich-alphaautob24-salary__date_from').val();
             let dateTo = $('#sladcovich-alphaautob24-salary__date_to').val();
@@ -125,6 +139,8 @@ Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/select2/js/
                 return;
             }
 
+            loading.show();
+
             BX.ajax.runComponentAction('sladcovich:alphaautob24.salary', 'getDataReport', {
                 mode: 'class', // это означает, что мы хотим вызывать действие из class.php
                 data: {
@@ -134,15 +150,10 @@ Bitrix\Main\Page\Asset::getInstance()->addJs('/local/dist/sladcovich/select2/js/
                 },
             }).then(function (response) {
                 // success
-                console.log('SLADCOVICH - ERROR - START');
-                console.log(response.data);
-                console.log('SLADCOVICH - ERROR - END');
-                // Очищаем предыдущую результирующую таблицу если она существует
-                let tableResult = $('#sladcovich-alphaautob24-salary__table_result');
-                if (tableResult !== undefined) { tableResult.remove(); }
                 // Добавляем результирующую таблицу
                 table.append(response.data);
-                // Добавляем данные в таблицу и рисуем ее
+                // Скрываем загрузку
+                loading.hide();
             }, function (response) {
                 // error
                 console.log('SLADCOVICH - START');
