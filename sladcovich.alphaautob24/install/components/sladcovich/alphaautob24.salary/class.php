@@ -50,7 +50,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
      */
     public function executeComponent()
     {
-        $this->arResult['USERS'] = UserHelper::getAllUsers(true,true);
+        $this->arResult['USERS'] = UserHelper::getAllUsers(true, true);
         $this->includeComponentTemplate();
     }
 
@@ -63,15 +63,12 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
      */
     public function checkUserDepartment($reportUserId)
     {
-        if (count(self::$arUsersDepartmentAffiliation) === 0)
-        {
-            self::$arUsersDepartmentAffiliation = UserHelper::getAllUsers(false,true);
+        if (count(self::$arUsersDepartmentAffiliation) === 0) {
+            self::$arUsersDepartmentAffiliation = UserHelper::getAllUsers(false, true);
         }
 
-        foreach (self::$arUsersDepartmentAffiliation as $userId => $departmentCode)
-        {
-            if (intval($userId) === intval($reportUserId))
-            {
+        foreach (self::$arUsersDepartmentAffiliation as $userId => $departmentCode) {
+            if (intval($userId) === intval($reportUserId)) {
                 return $departmentCode;
             }
         }
@@ -87,22 +84,20 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
      */
     public function collectDataForReport($departmentCode, $dateFrom, $dateTo, $userId)
     {
-        $moscowManagersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24','MOSCOW_MANAGERS_PERCENT')/100);
-        $regionManagersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24','REGION_MANAGERS_PERCENT')/100);
-        $partsPercent = (\COption::GetOptionInt('sladcovich.alphaautob24','PARTS_PERCENT')/100);
-        $expertsPercent = (\COption::GetOptionInt('sladcovich.alphaautob24','EXPERTS_PERCENT')/100);
-        $workersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24','WORKERS_PERCENT')/100);
+        $moscowManagersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24', 'MOSCOW_MANAGERS_PERCENT') / 100);
+        $regionManagersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24', 'REGION_MANAGERS_PERCENT') / 100);
+        $partsPercent = (\COption::GetOptionInt('sladcovich.alphaautob24', 'PARTS_PERCENT') / 100);
+        $expertsPercent = (\COption::GetOptionInt('sladcovich.alphaautob24', 'EXPERTS_PERCENT') / 100);
+        $workersPercent = (\COption::GetOptionInt('sladcovich.alphaautob24', 'WORKERS_PERCENT') / 100);
 
-        switch ($departmentCode)
-        {
+        switch ($departmentCode) {
             case 'MOSCOW_MANAGERS':
 
                 $arClosedDeals['CLOSED_DEALS_DATA'] = CrmEntityHelper::getClosedDeals($dateFrom, $dateTo, $userId, 'ASSIGNED_BY_ID');
 
                 $totalSalarySum = 0;
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal)
-                {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal) {
 
                     $currentSalarySum = 0;
 
@@ -110,8 +105,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -119,8 +113,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -140,8 +133,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
                 $totalSalarySum = 0;
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal)
-                {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal) {
 
                     $currentSalarySum = 0;
 
@@ -149,8 +141,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -158,8 +149,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -180,8 +170,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
                 $totalSalarySum = 0;
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal)
-                {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal) {
 
                     $currentSalarySum = 0;
 
@@ -189,8 +178,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -198,8 +186,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -220,8 +207,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
 
                 $totalSalarySum = 0;
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal)
-                {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal) {
 
                     $currentSalarySum = 0;
 
@@ -229,8 +215,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -238,8 +223,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['SUM'],
                         'filter' => ['DEAL_B24_ID' => $delaId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $currentSalarySum = $currentSalarySum + $row['SUM'];
                     }
 
@@ -261,8 +245,7 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                 $totalSalarySum = 0;
                 $arExecutorWorkDeals = [];
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal)
-                {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $delaId => $arDeal) {
 
                     $currentSalarySum = 0;
 
@@ -270,17 +253,15 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                         'select' => ['WORK_ID', 'PARTICIPATION_PERCENT'],
                         'filter' => ['DEAL_B24_ID' => $delaId, 'USER_B24_ID' => $userId]
                     ]);
-                    while ($row = $res->fetch())
-                    {
+                    while ($row = $res->fetch()) {
                         $arExecutorWorkDeals[] = $delaId;
 
                         $subRes = WorkTable::getList([
                             'select' => ['SUM'],
                             'filter' => ['ID' => $row['WORK_ID']]
                         ]);
-                        while ($subRow = $subRes->fetch())
-                        {
-                            $currentSalarySum = $currentSalarySum + ($subRow['SUM'] * ($row['PARTICIPATION_PERCENT']/100));
+                        while ($subRow = $subRes->fetch()) {
+                            $currentSalarySum = $currentSalarySum + ($subRow['SUM'] * ($row['PARTICIPATION_PERCENT'] / 100));
                         }
                     }
 
@@ -292,10 +273,8 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
                 $arClosedDeals['TOTAL_SALARY_SUM'] = $totalSalarySum;
                 $arClosedDeals['TOTAL_DEALS_COUNT'] = count(array_unique($arExecutorWorkDeals));
 
-                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $dealId => $arDeal)
-                {
-                    if (!in_array($dealId, $arExecutorWorkDeals))
-                    {
+                foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $dealId => $arDeal) {
+                    if (!in_array($dealId, $arExecutorWorkDeals)) {
                         unset($arClosedDeals['CLOSED_DEALS_DATA'][$dealId]);
                     }
                 }
@@ -312,43 +291,101 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
      */
     public static function createReportTable($arClosedDeals)
     {
+        // Если нет данных
+        if (count($arClosedDeals['CLOSED_DEALS_DATA']) === 0)
+        {
+            $table = '
+            <div id="sladcovich-alphaautob24-salary__table_result">  
+              
+                <div class="alert alert-dismissable alert-danger">
+                        ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_NO_DATA') . '
+                </div>
+                
+            </div>    
+            ';
+
+            return $table;
+        }
+
+        // Если есть данные
         $table = '
-        <!-- Таблица -->
-        <table class="table table-sm table-hover" id="sladcovich-alphaautob24-salary__table_result" style="overflow: auto">
+
+        <!-- Общая информация -->
+        <div id="sladcovich-alphaautob24-salary__table_result">
         
-            <!-- Заголовки -->
-            <thead id="sladcovich-alphaautob24-salary__table_titles">
+            <div class="alert alert-dismissable alert-info">
+                    ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TOTAL_PART_1') . $arClosedDeals['TOTAL_DEALS_COUNT'] . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TOTAL_PART_2') . $arClosedDeals['TOTAL_SALARY_SUM'] . ' ₽
+            </div>
+    
+            <!-- Таблица -->
+            <table class="table table-sm table-hover" style="overflow: auto">
             
-                <tr>
-                    <th style="width: 40px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_ORDER_NUMBER').'
-                        <span class="sladcovich-alphaautob24-salary__table_result_total_deal_count">
-                        '.$arClosedDeals['TOTAL_DEALS_COUNT'].'
-                        </span>
-                    </th>
-                    <th style="width: 160px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CAR_BRAND').'
-                    </th>
-                    <th style="width: 160px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CAR_MODEL').'
-                    </th>
-                    <th style="width: 100px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_STATE_NUMBER').'
-                    </th>
-                    <th style="width: 120px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CLOSED_DATE').'
-                    </th>
-                    <th style="width: 80px">
-                        '.Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_SUM').'
-                        <span class="sladcovich-alphaautob24-salary__table_result_total_deal_sum">
-                        '.$arClosedDeals['TOTAL_SALARY_SUM'].'
-                        </span>
-                    </th>
-                </tr>
+                <!-- Заголовки -->
+                <thead id="sladcovich-alphaautob24-salary__table_titles">
                 
-            </thead>
+                    <tr>
+                        <th style="width: 40px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_ORDER_NUMBER') . '
+                        </th>
+                        <th style="width: 160px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CAR_BRAND') . '
+                        </th>
+                        <th style="width: 160px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CAR_MODEL') . '
+                        </th>
+                        <th style="width: 100px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_STATE_NUMBER') . '
+                        </th>
+                        <th style="width: 120px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CLOSED_DATE') . '
+                        </th>
+                        <th style="width: 80px">
+                            ' . Loc::getMessage('SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_SUM') . '
+                        </th>
+                    </tr>
+                    
+        ';
+
+        $tableRows = '';
+        $orderNumber = 1;
+        foreach ($arClosedDeals['CLOSED_DEALS_DATA'] as $dealId => $arDeal)
+        {
+            $tableRows = $tableRows . '
+                        <tr>
+                            <td>
+                                <a href="/crm/deal/details/'.$dealId.'/">
+                                    <button class="btn btn-info" style="padding: 0px 0px 0px 0px; width: 50%;">'.$orderNumber.'</button>
+                                </a>
+                            </td>
+                            <td>
+                                '.$arDeal['CAR_BRAND'].'
+                            </td>
+                            <td>
+                                '.$arDeal['CAR_MODEL'].'
+                            </td>
+                            <td>
+                                '.$arDeal['STATE_NUMBER'].'
+                            </td>
+                            <td>
+                                '.$arDeal['CLOSE_DATE'].'
+                            </td>
+                            <td>
+                                '.$arDeal['SALARY'].'
+                            </td>
+                        </tr>
+            ';
+            $orderNumber++;
+        }
+
+        $table = $table . $tableRows;
+
+
+        $table = $table . '
                 
-        </table>        
+                </thead>
+                    
+            </table>      
+        </div>    
         ';
 
         return $table;
@@ -361,7 +398,6 @@ class Alphaautob24SalaryComponent extends CBitrixComponent implements Controller
         $departmentCode = self::checkUserDepartment($userId);
         $arClosedDeals = self::collectDataForReport($departmentCode, $dateFrom, $dateTo, $userId);
 
-        return $arClosedDeals;
-        //return self::createReportTable($arClosedDeals);
+        return self::createReportTable($arClosedDeals);
     }
 }

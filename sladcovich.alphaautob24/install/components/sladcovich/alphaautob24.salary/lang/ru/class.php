@@ -7,4 +7,9 @@ $MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_STATE_NUMBER'] = 'Гос. ном�
 $MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_CLOSED_DATE'] = 'Дата завершения сделки';
 $MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_TEMPLATE_SUM'] = 'Итого ₽';
 
+$MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_NO_DATA'] = 'За указанный период нет закрытых сделок в которых учавствовал сотрудник!';
+
+$MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_TOTAL_PART_1'] = 'Закрыто сделок: ';
+$MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_TOTAL_PART_2'] = ', Общая сумма к заработанной плате: ';
+
 $MESS['SLADCOVICH_ALPHAAUTOB24_SALARY_'] = '';
