@@ -93,12 +93,12 @@ Class sladcovich_alphaautob24 extends \CModule
      */
     public function DoInstall()
     {
-//        if (!$this->InstallDB()) {
-//            return false; // break installation with error
-//        }
-//        if (!$this->InstallFiles()) {
-//            return false; // break installation with error
-//        }
+        if (!$this->InstallDB()) {
+            return false; // break installation with error
+        }
+        if (!$this->InstallFiles()) {
+            return false; // break installation with error
+        }
 
         ModuleManager::registerModule($this->MODULE_ID); // register module in system
     }
@@ -112,12 +112,12 @@ Class sladcovich_alphaautob24 extends \CModule
     public function DoUninstall()
     {
 
-//        if (!$this->UnInstallDB()) {
-//            return false; // break uninstallation with error
-//        }
-//        if (!$this->UnInstallFiles()) {
-//            return false; // break installation with error
-//        }
+        if (!$this->UnInstallDB()) {
+            return false; // break uninstallation with error
+        }
+        if (!$this->UnInstallFiles()) {
+            return false; // break installation with error
+        }
 
         ModuleManager::unRegisterModule($this->MODULE_ID); // register module in system
     }
@@ -159,8 +159,17 @@ Class sladcovich_alphaautob24 extends \CModule
      */
     public function InstallFiles()
     {
+        // Добавление css и js
         CopyDirFiles(__DIR__ . '/dist/', $_SERVER['DOCUMENT_ROOT'] . '/local/dist/sladcovich/', true, true);
-        CopyDirFiles(__DIR__ . '/components/sladcovich/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/', true, true);
+
+        // Добавление компонентов sladcovich
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.work/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.work/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.worksk/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.worksk/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.part/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.part/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.partsk/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.partsk/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.costprice/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.costprice/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.salary/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.salary/', true, true);
+        CopyDirFiles(__DIR__ . '/components/sladcovich/alphaautob24.worksparts.export.xlsx/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.worksparts.export.xlsx/', true, true);
 
         // todo: WARNING !!! this is rewrite default bitrix components in /local/components/bitrix/ - better find another decision in future
         // create additional tab in deal card
@@ -176,8 +185,17 @@ Class sladcovich_alphaautob24 extends \CModule
      */
     public function UnInstallFiles()
     {
+        // Удаление css и js
         Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/dist/sladcovich/');
-        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/');
+
+        // Удаление компонентов sladcovich
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.work/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.worksk/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.part/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.partsk/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.costprice/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.salary/');
+        Directory::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/local/components/sladcovich/alphaautob24.worksparts.export.xlsx/');
 
         // todo: WARNING !!! this is delete default bitrix components in /local/components/bitrix/ - better find another decision in future
         // create additional tab in deal card
