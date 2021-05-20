@@ -20,11 +20,11 @@ class UserHelper
      * @var array - массив подразделений для отчета по заработонной плате
      */
     protected static $arReportDepartments = [
-        'MOSCOW_MANAGERS' => 0,
-        'REGION_MANAGERS' => 0,
-        'PARTS' => 0,
-        'EXPERTS' => 0,
-        'WORKERS' => 0
+        'MOSCOW_MANAGERS' => [],
+        'REGION_MANAGERS' => [],
+        'PARTS' => [],
+        'EXPERTS' => [],
+        'WORKERS' => []
     ];
 
     /**
@@ -59,9 +59,11 @@ class UserHelper
                 'LOGIC' => 'OR'
             ];
             foreach (self::$arReportDepartments as $departmentId) {
-                $arFilter[] = [
-                    'UF_DEPARTMENT' => $departmentId
-                ];
+                foreach ($departmentId as $depId) {
+                    $arFilter[] = [
+                        'UF_DEPARTMENT' => $departmentId
+                    ];
+                }
             }
         }
 
@@ -75,8 +77,7 @@ class UserHelper
 
             if ($forSelect2 === true) {
 
-                if (count($row['UF_DEPARTMENT']) !== 0)
-                {
+                if (count($row['UF_DEPARTMENT']) !== 0) {
                     $users[$row['ID']] = [
                         'id' => intval($row['ID']),
                         'text' => ($row['LAST_NAME'] . ' ' . $row['NAME'] . ' ' . $row['SECOND_NAME']),
@@ -104,12 +105,25 @@ class UserHelper
             $arDepartmentId = [];
             $headsOFDepartments = [];
             foreach (self::$arReportDepartments as $departmentId) {
-                $arDepartmentId[] = $departmentId;
+                foreach ($departmentId as $depId) {
+                    $arDepartmentId[] = $departmentId;
+                }
             }
-            $headsOFDepartments = \CIntranetUtils::GetDepartmentManager($arDepartmentId);
+
+            foreach ($arDepartmentId as $depUsers) {
+                $headsOFDepartments[] = \CIntranetUtils::GetDepartmentManager($depUsers);
+            }
+
             foreach ($users as $userId => $arUser) {
-                if (array_key_exists($userId, $headsOFDepartments)) {
-                    unset($users[$userId]);
+                foreach ($headsOFDepartments as $keys => $values) {
+                    foreach ($values as $k => $v) {
+                        if ($k === $userId) {
+                            global $USER_FIELD_MANAGER;
+                            if (!$USER_FIELD_MANAGER->GetUserFieldValue('USER', 'UF_SALARY_REPORT', $userId)) {
+                                unset($users[$userId]);
+                            }
+                        }
+                    }
                 }
             }
             $users = array_values($users);
@@ -146,7 +160,7 @@ class UserHelper
         while ($row = $res->fetch()) {
             foreach (self::$arReportDepartments as $departmentCode => $departmentId) {
                 if ($row['CODE'] === $departmentCode) {
-                    self::$arReportDepartments[$departmentCode] = intval($row['ID']);
+                    self::$arReportDepartments[$departmentCode][] = intval($row['ID']);
                 }
             }
         }
