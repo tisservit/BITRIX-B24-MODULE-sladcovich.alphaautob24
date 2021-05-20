@@ -87,9 +87,12 @@ class UserHelper
             }
 
             if ($forSelect2 === false && $forSalaryReport === true) {
+
                 foreach (self::$arReportDepartments as $departmentCode => $departmentId) {
-                    if ($row['UF_DEPARTMENT'][0] === $departmentId) {
-                        $users[$row['ID']] = $departmentCode;
+                    foreach ($departmentId as $depId) {
+                        if ($row['UF_DEPARTMENT'][0] === $depId) {
+                            $users[$row['ID']] = $departmentCode;
+                        }
                     }
                 }
             }
@@ -114,16 +117,10 @@ class UserHelper
                 $headsOFDepartments[] = \CIntranetUtils::GetDepartmentManager($depUsers);
             }
 
-            foreach ($users as $userId => $arUser) {
-                foreach ($headsOFDepartments as $keys => $values) {
-                    foreach ($values as $k => $v) {
-                        if ($k === $userId) {
-                            global $USER_FIELD_MANAGER;
-                            if (!$USER_FIELD_MANAGER->GetUserFieldValue('USER', 'UF_SALARY_REPORT', $userId)) {
-                                unset($users[$userId]);
-                            }
-                        }
-                    }
+            foreach ($users as $id => $user) {
+                global $USER_FIELD_MANAGER;
+                if ($USER_FIELD_MANAGER->GetUserFieldValue('USER', 'UF_NO_SALARY_REPORT', $id)) {
+                    unset($users[$id]);
                 }
             }
             $users = array_values($users);
